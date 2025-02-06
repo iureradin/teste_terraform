@@ -16,6 +16,10 @@ resource "aws_security_group" "lb_sg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]  # Permite todas as saídas
   }
+
+  tags = {
+    Name = "lb-sg"
+  }
 }
 
 resource "aws_lb" "web_lb" {
@@ -58,8 +62,28 @@ resource "aws_lb_listener" "web_listener" {
   protocol          = "HTTP"
 
   default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Forbidden"
+      status_code  = "403"
+    }
+  }
+}
+
+resource "aws_lb_listener_rule" "web_listener_rule" {
+  listener_arn = aws_lb_listener.web_listener.arn
+  priority     = 1
+
+  action {
     type             = "forward"
     target_group_arn = aws_lb_target_group.web_tg.arn
+  }
+
+  condition {
+    host_header {
+      values = [aws_cloudfront_distribution.cdn.domain_name]
+    }
   }
 }
 
