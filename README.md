@@ -29,8 +29,8 @@ As variáveis são definidas no arquivo `variables.tf`. Aqui estão algumas das 
 
 1. Clone o repositório:
     ```sh
-    git clone https://github.com/seu-usuario/seu-repositorio.git
-    cd seu-repositorio
+    git clone https://github.com/iureradin/teste_terraform.git
+    cd teste_terraform
     ```
 
 2. Inicialize o Terraform:
