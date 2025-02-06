@@ -62,12 +62,8 @@ resource "aws_lb_listener" "web_listener" {
   protocol          = "HTTP"
 
   default_action {
-    type = "fixed-response"
-    fixed_response {
-      content_type = "text/plain"
-      message_body = "Forbidden"
-      status_code  = "403"
-    }
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.web_tg.arn
   }
 }
 
